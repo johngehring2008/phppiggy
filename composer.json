@@ -3,7 +3,7 @@
     "description": "A PHP application for tracking expenses.",
     "type": "project",
     "authors": [{
-        "name": "John Gehring",
+        "name": "John M. Gehring",
         "email": "johngehring2008@gmail.com"
     }],
     "require": {
