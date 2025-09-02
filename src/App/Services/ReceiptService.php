@@ -46,18 +46,18 @@ class ReceiptService
     }
   }
 
-  public function upload(array $file)
+  public function upload(array $file, int $transaction)
   {
     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $newFilename = bin2hex(random_bytes(16)) . "." . $fileExtension;
 
-    $uploadPath = Paths::STORAGE_UPLOADS . "/" . $newFilename;
+    $uploadPath = Paths::STORAGE_UPLOADS . $newFilename;
 
     if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
       throw new ValidationException(['receipt' => ['Failed to upload file']]);
     }
-  }
-  /* $this->db->query(
+
+    $this->db->query(
       "INSERT INTO receipts(
         transaction_id, original_filename, storage_filename, media_type
       )
@@ -83,7 +83,7 @@ class ReceiptService
 
   public function read(array $receipt)
   {
-    $filePath = Paths::STORAGE_UPLOADS . '/' . $receipt['storage_filename'];
+    $filePath = Paths::STORAGE_UPLOADS . $receipt['storage_filename'];
 
     if (!file_exists($filePath)) {
       redirectTo('/');
@@ -97,12 +97,12 @@ class ReceiptService
 
   public function delete(array $receipt)
   {
-    $filePath = Paths::STORAGE_UPLOADS . "/" . $receipt['storage_filename'];
+    $filePath = Paths::STORAGE_UPLOADS . $receipt['storage_filename'];
 
     unlink($filePath);
 
     $this->db->query("DELETE FROM receipts WHERE id = :id", [
       'id' => $receipt['id']
     ]);
-  } */
+  }
 }
