@@ -54,8 +54,13 @@ class App
     $this->router->addMiddleware($middleware);
   }
 
-  public function add(string $middleware)
+  public function add(string $middleware): void
   {
     $this->router->addRouteMiddleware($middleware);
+  }
+
+  public function setErrorHandler(array $controller)
+  {
+    $this->router->setErrorHandler($controller);
   }
 }
